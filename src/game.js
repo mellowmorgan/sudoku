@@ -3,3 +3,7 @@ export function Game(colArray, rowArray, boxArray){
   this.rowArray = rowArray;
   this.boxArray = boxArray;
 }
+
+Game.prototype.isLegal= function() {
+  return true;
+}

@@ -13,6 +13,6 @@ describe('Game', () => {
   });
   test('Should return whether user input is "legal" or not', () => {
     const legal =  game.isLegal();
-    expect(legal === false);
+    expect(legal).toEqual(true);
   });
 });
