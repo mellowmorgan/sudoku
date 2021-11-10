@@ -3,57 +3,39 @@ import { Game, Board, Square } from './game.js';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
+let board = new Board();
+for(let i=0;i<81;i++){
+  let square = new Square();
+  board.addSquare(square);
+}   
+let mapSpanValues = new Map([[2,9],[3,6],[5,4],[8,3],[11,5],[12,7],[13,8], [14,2],[19,1],[22,9],[25,5],[30,9],[32,1],[36,8],[37,5],[45,2],[46,4],[50,9],[52,6],[57,4],[60,3],[63,1],[68,7],[69,9],[70,2],[71,6],[74,2],[77,5],[79,9],[80,8]]);
+Object.keys(board.squares).forEach(function(key){
+  
+  if (mapSpanValues.has(parseInt(key))){
+    $("ul").append("<li><span id=" + key + ">"+mapSpanValues.get(parseInt(key))+"<span/></li>");
+    
+  }
+  else{$("ul").append("<li><input id=" + key + " type='number' min='1' max='9' step='1' /></li>");}
+
+  
+  
+})
+
 
 $("button").on("click", function(event){
   event.preventDefault();
-  let array = [];
-  for(let i=1;i<10;i++){
-    for(let i2=1;i2<10;i2++){
-       let s= i.toString()+i2.toString();
-        array.push(s);
-  }}
-  //alert(array);
-  let counter=1;
-  let box=1;
-  let externalCounter=1;
-  let extraExtCounter=1;
-  for(let i=0;i<array.length;i++){
-    if (extraExtCounter===56){
-      box=6;
-      externalCounter=1;
-    }
-    if (externalCounter===10 && extraExtCounter!==56){
-      box=box-3;
-      externalCounter=1;
-    }
-    if (extraExtCounter===28){
-      box=3;
-    }
-    
-    if(counter===4){
-      box++;
-      counter=1;
-    }
-    array[i]=array[i]+box;
-    extraExtCounter++;
-    counter++;
-    externalCounter++;
-  }
-  let  userArrayNumbers = [];
-  
-
-  array.forEach(function(stringId){
-    let value;
-    if ($("#"+stringId).is("input")){
+  let arrayOfSquareValues = [];
+  for(let i=1;i<=81;i++){
+    if (mapSpanValues.has(i)){
+      arrayOfSquareValues.push($(i.toString()).text());
       
-      value = $("#"+stringId).val();
     }
     else{
-       value = $("#"+stringId).text();
+      arrayOfSquareValues.push($(i.toString()).val());
     }
-    userArrayNumbers.push(parseInt(value));
-  });
-  alert(array);
+    
+  }
+
   function sliceIntoChunks(arr, chunkSize) {
     const res = [];
     for (let i = 0; i < arr.length; i += chunkSize) {
@@ -62,7 +44,7 @@ $("button").on("click", function(event){
     }
     return res;
 }
-  let arrayOfRows=sliceIntoChunks(userArrayNumbers,9);
+  let arrayOfRows=sliceIntoChunks(arrayOfSquareValues,9);
  
   function transposeArray(array, arrayLength){
     let newArray = [];
@@ -77,26 +59,11 @@ $("button").on("click", function(event){
     };
 
     return newArray;
-}
+  }
   let arrayOfColumns= transposeArray(arrayOfRows,9);
- // alert(arrayOfColumns[0]);
-
-  // let columnCounter=0
-  // let rowArrays=[];
-  // let rowArray=[];
-  // for(let i=0;i<userArrayNumbers.length;i++){
-  //   if(columnCounter<9){
-  //   rowArray.push(userArrayNumbers[i]);}
-  //   if(columnCounter===8){
-  //     rowArrays.push(rowArray);
-  //     columnCounter=0;
-  //     rowArray=[];
-  //   }
-  //   columnCounter++;
-  // }
-  // alert(rowArrays[0]);
-  // alert(rowArrays[1]);
-  // alert(rowArrays[2]);
+  let game=new Game(arrayOfColumns,arrayOfRows);
+  const checkSudoku = game.isLegal();
+  alert(checkSudoku);
   
 
 

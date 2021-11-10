@@ -1,11 +1,10 @@
-export function Game(colArray, rowArray, boxArray){
+export function Game(colArray, rowArray){
   this.colArray = colArray;
   this.rowArray = rowArray;
-  this.boxArray = boxArray;
 }
 
 Game.prototype.isLegal= function() {
-  return true;
+  return false;
 }
 
 export function Board(){
