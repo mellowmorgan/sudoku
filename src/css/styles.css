@@ -1,5 +1,13 @@
 body{
+  text-align: center;
   font-family: Avenir, Heveltica, sans-serif;
+}
+.center{
+  margin:auto;
+  width:15%;
+}
+button{
+  width:100%;
 }
 input{
   width:4rem;

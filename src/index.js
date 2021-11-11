@@ -19,7 +19,34 @@ Object.keys(board.squares).forEach(function(key){
 
   
   
-})
+});
+
+
+function sliceIntoChunks(arr, chunkSize) {
+  const res = [];
+  for (let i = 0; i < arr.length; i += chunkSize) {
+      const chunk = arr.slice(i, i + chunkSize);
+      res.push(chunk);
+  }
+  return res;
+}
+function transposeArray(array, arrayLength){
+  let newArray = [];
+  for(let i = 0; i < array.length; i++){
+      newArray.push([]);
+  }
+
+  for(let i = 0; i < array.length; i++){
+      for(let j = 0; j < arrayLength; j++){
+          newArray[j].push(array[i][j]);
+      }
+  }
+
+return newArray;
+}
+// let testGame = [2,9,6,1,4,5,8,3,7,3,5,7,8,2,6,1,4,9,1,4,8,9,3,7,5,2,6,6,3,9,5,1,2,4,7,8,5,8,1,7,6,4,3,9,2,4,7,2,3,9,8,6,1,5,9,6,4,2,8,3,7,5,1,8,1,5,4,7,9,2,6,3,7,2,3,6,5,1,9,8,4];
+
+
 
 
 $("button").on("click", function(event){
@@ -27,46 +54,29 @@ $("button").on("click", function(event){
   let arrayOfSquareValues = [];
   for(let i=1;i<=81;i++){
     if (mapSpanValues.has(i)){
-      arrayOfSquareValues.push($(i.toString()).text());
+      arrayOfSquareValues.push(parseInt($("#"+i.toString()).text()));
       
     }
     else{
-      arrayOfSquareValues.push($(i.toString()).val());
+      arrayOfSquareValues.push(parseInt($("#"+i.toString()).val()));
     }
     
   }
 
-  function sliceIntoChunks(arr, chunkSize) {
-    const res = [];
-    for (let i = 0; i < arr.length; i += chunkSize) {
-        const chunk = arr.slice(i, i + chunkSize);
-        res.push(chunk);
-    }
-    return res;
-}
+ 
   let arrayOfRows=sliceIntoChunks(arrayOfSquareValues,9);
  
-  function transposeArray(array, arrayLength){
-    let newArray = [];
-    for(let i = 0; i < array.length; i++){
-        newArray.push([]);
-    };
 
-    for(let i = 0; i < array.length; i++){
-        for(let j = 0; j < arrayLength; j++){
-            newArray[j].push(array[i][j]);
-        };
-    };
-
-    return newArray;
-  }
   let arrayOfColumns= transposeArray(arrayOfRows,9);
+  console.log(arrayOfColumns);
+  console.log(arrayOfRows);
   let game=new Game(arrayOfColumns,arrayOfRows);
   const checkSudoku = game.isLegal();
-  alert(checkSudoku);
-  
-
+  if(checkSudoku){
+    $("#result").text("You won!");
+  }
+  else{
+    $("#result").text("Your board isn't quite right!");
+  }
 
 });
-
-
